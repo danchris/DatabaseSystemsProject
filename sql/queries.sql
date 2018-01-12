@@ -18,7 +18,7 @@ SELECT DISTINCT City FROM Customer GROUP BY Customer_ID;
 
 /* HAVING */
 
-SELECT Year FROM Vehicle GROUP BY License_Plate HAVING COUNT(Kilometers) >100000;
+SELECT License_Plate, Kilometers, Year FROM Vehicle GROUP BY License_Plate HAVING Kilometers > 100000;
 
 /* NESTED */
 SELECT Store_ID, Phone_Number FROM Phone_Number WHERE (SELECT Store_ID FROM Store WHERE Store.Store_ID = Phone_Number.Store_ID) ORDER BY Store_ID;
