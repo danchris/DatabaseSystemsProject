@@ -1,0 +1,92 @@
+<html>
+<head>
+<title>Add Store</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+
+<div id="logo">
+    <h1>PROJECT</h1>
+</div>
+<?php
+
+if(isset($_POST['submit'])){
+
+    $data_missing = array();
+
+    if(empty($_POST['city'])){
+        $data_missing[] = "City";
+    }
+    else{
+        $city = trim($_POST['city']);
+    }
+
+    if(empty($_POST['street'])){
+        $data_missing[] = "Street";
+    }
+    else{
+        $street = trim($_POST['street']);
+    }
+
+    if(empty($_POST['street_number'])){
+        $data_missing[] = "Street Number";
+    }
+    else{
+        $street_number = trim($_POST['street_number']);
+    }
+
+    if(empty($_POST['postal_code'])){
+        $data_missing[] = "Postal Code";
+    }
+    else{
+        $postal_code = trim($_POST['postal_code']);
+    }
+
+    if(empty($data_missing)){
+        require_once('../root/connect.php');
+
+        $query = "INSERT INTO Store (Street, Street_Number, Postal_Code, City) VALUES (?,?,?,?)";
+
+        $stmt = mysqli_prepare($dbc, $query);
+
+        mysqli_stmt_bind_param($stmt,"siis", $street, $street_number, $postal_code, $city);
+        mysqli_stmt_execute($stmt);
+
+        $addected_rows = mysqli_stmt_affected_rows($stmt);
+
+        if($addected_rows == 1){
+            echo 'Store Added with id: ';
+            echo array_values(mysqli_fetch_array($dbc->query("SELECT Store_ID FROM Store WHERE (Street='$street' AND Street_Number='$street_number' AND City='$city' AND Postal_Code='$postal_code')")))[0];
+            mysqli_stmt_close($stmt);
+            mysqli_close($dbc);
+        echo'<form action="http://localhost/project/php/addStore.php">
+        <input type="submit" value="Add New Store" />
+        </form>';
+        }
+        else {
+            echo 'Error Occured<br />';
+            echo mysqli_error();
+            mysqli_stmt_close($stmt);
+            mysqli_close($dbc);
+        echo '
+            <form action="http://localhost/project/php/addStore.php">
+            <input type="submit" value="Try again" />
+            </form>';
+        }
+    }
+    else {
+        echo 'The following field required<br />';
+        echo '<ul>';
+        foreach($data_missing as $missing){
+            echo "<li>$missing</li>";
+        }
+        echo '<ul>';
+        echo '
+            <form action="http://localhost/project/php/addStore.php">
+            <input type="submit" value="Try again" />
+            </form>';
+    }
+}
+?>
+</body>
+</html>
