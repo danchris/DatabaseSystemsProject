@@ -98,7 +98,7 @@ else {
                 mysqli_close($dbc);
             }
         }
-        $f_name = $_POST['first_name'];
+        $f_name = $_POST['f_name'];
         if($f_name) {
             $respon = @mysqli_query($dbc,"UPDATE Customer SET First_Name = '$f_name' WHERE Customer_ID='$temp'");
             if(!$respon) {
@@ -112,9 +112,9 @@ else {
             </form>';
             }
         }
-        $l_name = $_POST['last_name'];
+        $l_name = $_POST['l_name'];
         if($l_name) {
-            $respon = @mysqli_query($dbc,"UPDATE Customer SET Last_Name = '$l_name' WHERE Customer_ID='$temp'");
+            $respon = @mysqli_query($dbc,"UPDATE IGNORE Customer SET Last_Name = '$l_name' WHERE Customer_ID='$temp'");
             if(!$respon) {
                 echo 'Error to Update Last Name';
                 mysqli_error($dbc);
