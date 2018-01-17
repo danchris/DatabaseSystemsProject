@@ -1,7 +1,7 @@
 # Database Systems
 Database Systems Project of National Technical University of Athens
 
-Please note that it is not complete
+**Please note that it is not complete**
 
 # LICENSE
 MIT License
